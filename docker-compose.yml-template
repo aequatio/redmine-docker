@@ -21,6 +21,9 @@ services:
     # RUN section
     ##################################################
     image: aequatio/docker-redmine:0.0.0
+    volumes:
+     - ./persistent/redmine/files:/usr/src/redmine/files
+     - ./persistent/redmine/log:/usr/src/redmine/log
     restart: unless-stopped
     container_name: redmine
     ports:
