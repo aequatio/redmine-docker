@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./persistent/mysql:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: redmine
+
+  redmine:
+    ##################################################
+    # BUILD section
+    ##################################################
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    ##################################################
+    # RUN section
+    ##################################################
+    image: aequatio/docker-redmine:0.0.0
+    restart: unless-stopped
+    container_name: redmine
+    ports:
+      - 8080:3000
+    environment:
+      REDMINE_DB_MYSQL: db
+      REDMINE_DB_PASSWORD: example
+    depends_on:
+      - db
+
